@@ -22,26 +22,13 @@ namespace StarChart.Controllers
         [HttpGet("{id:int}", Name = "GetById")]
         public IActionResult GetById(int id)
         {
-            var celestialObject = _context.CelestialObjects.SingleOrDefault(cb => cb.Id == id);
+            var celestialObject = _context.CelestialObjects.Find(id);
             if (celestialObject == null)
             {
                 return NotFound();
             }
 
-            celestialObject.Satellites = new List<CelestialObject>()
-            {
-                new CelestialObject()
-                {
-                    Id = 1,
-                    Name = "Earth"
-                },
-                new CelestialObject()
-                {
-                    Id = 2,
-                    Name = "Moon",
-                    OrbitedObjectId = 1
-                }
-            };
+            celestialObject.Satellites = _context.CelestialObjects.Where(e => e.OrbitedObjectId == id).ToList();
             return Ok(celestialObject);
         }
 
