@@ -44,5 +44,10 @@ namespace StarChart.Controllers
             return Ok(celestialObject);
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok(_context.CelestialObjects);
+        }
     }
 }
